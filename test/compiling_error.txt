@@ -1,0 +1,8 @@
+/Users/intisaruihaque/Documents/Cshit/test/test.c:5:40: error: expected ';' after expression
+    printf("Hi, my name is Intisar \n")
+                                       ^
+                                       ;
+/Users/intisaruihaque/Documents/Cshit/test/test.c:6:5: error: use of undeclared identifier 'retur'
+    retur 0;
+    ^
+2 errors generated.
