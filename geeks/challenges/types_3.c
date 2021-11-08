@@ -15,11 +15,11 @@ int main()
     // printf("%d wgewe\n", sizeof(str));
     // for loop end to beginning doing x10^length-i
 
-    int x = atoi(str);
-    printf("%d has size of %d\n", x, sizeof(x)); //expecting 4
+    int x = atoi(str);//error handling
+    printf("%d has size of %li\n", x, sizeof(x)); //expecting 4
     
     unsigned long y = ul(x);
-    printf("%li has size of %d \n ", y, sizeof(y)); //expecting 8
+    printf("%li has size of %li \n ", y, sizeof(y)); //expecting 8 (varies depending on machine chipset)
 
     return 0;
 }

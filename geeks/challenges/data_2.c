@@ -11,7 +11,8 @@ struct address
 int main()
 {
 struct address myHouse = {20, "main street", "London", "E1 4AY"};
-struct address *myHouseMem = &myHouse;
+//struct address *myHouseMem = &myHouse; use strcpy
+myHouse.doorNumber=5;
 
 // Accessing members of point p1
 printf ("Address:\n%d %s,\n%s,\n%s", myHouse.doorNumber, myHouse.roadName,myHouse.city,myHouse.postCode);
