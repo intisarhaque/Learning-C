@@ -53,23 +53,34 @@
 #include<stdio.h>
 int main()
 {
-char *ptr = "geeksforgeeks";
-printf("1 %c\n", *&*&*ptr); // g
-printf("2 %s\n", *&*&ptr); // geekforgeeks
+    char *ptr = "geeksforgeeks";
+    printf("1 %c\n", *&*&*ptr); // g
+    printf("2 %s\n", *&*&ptr); // geekforgeeks
 
+    printf("3 %c\n", *ptr); // g
+    printf("4 %p\n", &*ptr); // address of g
+    printf("5 %c\n", *&*ptr); //  g
+    printf("6 %p\n", &*&*ptr);// address of g
 
-printf("3 %c\n", *ptr); // g
-printf("4 %p\n", &*ptr); // address of g
-printf("5 %c\n", *&*ptr); //  g
-printf("6 %p\n", &*&*ptr);// address of g
+    printf("7 %p\n", &ptr); //different address (maybe address of 6) //adress of object of poitner
+    printf("8 %p\n", *&ptr); //address of g
+    printf("9 %s\n", *&ptr); //geekforgeeks
+    printf("10 %p\n", &*&ptr); // print same as 7
+    printf("11 %s\n", &*&ptr); // nothing
+    printf("12 %p\n", *&*&ptr); // print same as 8
+    printf("13 %s\n", *&*&ptr); // geekforgeeks
 
-printf("7 %p\n", &ptr); //different address (maybe address of 6)
-printf("8 %p\n", *&ptr); //address of g
-printf("9 %s\n", *&ptr); //geekforgeeks
-printf("10 %p\n", &*&ptr); // print same as 7
-printf("11 %s\n", &*&ptr); // nothing
-printf("12 %p\n", *&*&ptr); // print same as 8
-printf("13 %s\n", *&*&ptr); // geekforgeeks
-
-return 0;
+    return 0;
 }
+/*
+2 interrupts, software/hardare
+device sends interrupt to high or low to notify that there's data to read.
+kernel POV. System that controls the GPIO set as interrupt.
+when interrupt arrives there is assembler code that calls function
+callback function on kernel variables and needs to be really fast and do a few operations
+in function you define what to do - if interrupt enable device to read and set a flag
+
+book on findaspace individual, london brentwood, first floor group proudct, 10th, book, 1st floor look for the people
+
+
+*/
