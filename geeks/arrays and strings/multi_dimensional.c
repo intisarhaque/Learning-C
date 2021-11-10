@@ -20,3 +20,8 @@ printf("%lu", sizeof(a)); // prints 8*sizeof(int)
 getchar();
 return 0;
 }
+
+/* to do
+https://www.geeksforgeeks.org/dynamically-allocate-2d-array-c/
+https://www.geeksforgeeks.org/pass-2d-array-parameter-c/
+*/

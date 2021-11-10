@@ -53,16 +53,16 @@
 #include<stdio.h>
 int main()
 {
-    char *ptr = "geeksforgeeks";
+    char *ptr = "ceeksforgeeks";
     printf("1 %c\n", *&*&*ptr); // g
     printf("2 %s\n", *&*&ptr); // geekforgeeks
 
     printf("3 %c\n", *ptr); // g
-    printf("4 %p\n", &*ptr); // address of g
+    printf("4 %p\n", &*ptr); // address of g ox50
     printf("5 %c\n", *&*ptr); //  g
     printf("6 %p\n", &*&*ptr);// address of g
 
-    printf("7 %p\n", &ptr); //different address (maybe address of 6) //adress of object of poitner
+    printf("7 %p\n", &ptr); //different address (maybe address of 6) //adress of object of pointer 0x2
     printf("8 %p\n", *&ptr); //address of g
     printf("9 %s\n", *&ptr); //geekforgeeks
     printf("10 %p\n", &*&ptr); // print same as 7
