@@ -2,7 +2,7 @@
 printf returns total number of chars printed or <0 if error
 scanf returns total number of inputs scanned successfully or EOF if input failure occus.
 scanf need to use & before variable name assignment unless it is array/string
-
+https://www.geeksforgeeks.org/scanf-fscanf-sscanf-scanf_s-fscanf_s-sscanf_s/
 */
 // #include <stdio.h>
 // int main()
@@ -13,6 +13,7 @@ scanf need to use & before variable name assignment unless it is array/string
 // 	printf(", the value returned by printf() is : %li", printf("%ld", n));
 
 // 	return 0;
+
 // }
 
 #include <stdio.h>

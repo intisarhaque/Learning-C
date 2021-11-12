@@ -16,8 +16,10 @@ studname is not fixed and is a "Flexible Array Member (FAM)"
 memory allocation can be done using malloc:  struct student *s = malloc( sizeof(*s) + sizeof(char [strlen(stud_name)])  );
 
 */
-// C program for variable length members in
-// structures in GCC
+
+
+
+// C program for variable length members in structures in GCC
 #include<string.h>
 #include<stdio.h>
 #include<stdlib.h>
@@ -46,8 +48,7 @@ struct student *createStudent(struct student *s, int id, char a[])
 	strcpy(s->stud_name, a);
 
 	// Assigning size according to size of stud_name which is a copy of user provided array a[].
-	s->struct_size =
-		(sizeof(*s) + sizeof(char) * strlen(s->stud_name));
+	s->struct_size = (sizeof(*s) + sizeof(char) * strlen(s->stud_name));
 
 	return s;
 }
