@@ -75,12 +75,10 @@ int main()
 	printStudent(s2);
 
 	// Size in struct student
-	printf("Size of Struct student: %lu\n",
-					sizeof(struct student));
+	printf("Size of Struct student: %lu\n", sizeof(struct student));
 
 	// Size in struct pointer
-	printf("Size of Struct pointer: %lu",
-							sizeof(s1));
+	printf("Size of Struct pointer: %lu", sizeof(s1));
 
 	return 0;
 }
