@@ -32,8 +32,20 @@ int main(){
     multiply(5, 5);
     subtract(20,10);
     test();
-    printf("BYE!See you Soon");
+    printf("Cya\n");
+    scoreType_t a = Exam;
+    char * typeofexam = getScoreType(a);
+    printf("scoretype is %s\n", typeofexam);
+    subject newSubject = createSubject("maths", Exam, "Mr. Mister");
+    //printSubject(&newSubject);
+    printf("---\n%s\n%s\n%s", newSubject.subjectTitle, newSubject.teacher, getScoreType(newSubject.examType));
+
+
+
+
+
     return 0;
+
 }
 
 
