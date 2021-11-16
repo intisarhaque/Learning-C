@@ -17,6 +17,7 @@
 
 void add(int, int);
 void multiply(int, int);
+void subtract(int, int);
 
 
 

@@ -21,15 +21,15 @@
 
 #include <stdio.h>
 #include "headers/student.h"
+#include "headers/subject.h"
 
 int main(){
     add(4, 6);
-  
-    /*This calls add function written in myhead.h  
-      and therefore no compilation error.*/
     multiply(5, 5);
+    subtract(20,10);
   
-    // Same for the multiply function in myhead.h
+    test();
+
     printf("BYE!See you Soon");
     return 0;
 
