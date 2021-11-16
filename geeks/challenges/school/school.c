@@ -17,25 +17,23 @@
         - who teaches maths
         - who studies english
         - etc
+        add libarries and make files
 */
 
 #include <stdio.h>
-#include "headers/student.h"
+#include "headers/student.h"//h files currently contain functions
+
+//student.c to have the functions
+//student.h to have the declarations > import this
 #include "headers/subject.h"
 
 int main(){
     add(4, 6);
     multiply(5, 5);
     subtract(20,10);
-  
     test();
-
     printf("BYE!See you Soon");
     return 0;
-
-
-
-
 }
 
 

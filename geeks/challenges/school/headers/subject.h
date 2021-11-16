@@ -4,7 +4,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-enum scoreType {Exam, Coursework, Practical};
+//comments here
+typedef enum scoreType {Exam, Coursework, Practical} scoreType_t;
+//comments here
+void test();
+//comments here
+char* getScoreType(scoreType_t typea);
 
 
 struct subject
@@ -14,12 +19,12 @@ struct subject
 };
 
 void test(){
-    enum scoreType a = Exam;
-    printf("scoretype is %d\n", a);
-
+    scoreType_t a = Exam;
+    printf("scoretype is %s\n", getScoreType(a));
 }
 
-char* getScoreType(enum ScoreType typea){
+
+char* getScoreType(scoreType_t typea){
     switch(typea){
         case Exam: return "Exam";
         case Coursework: return "Coursework";
@@ -28,3 +33,9 @@ char* getScoreType(enum ScoreType typea){
 }
 
 #endif
+
+/*
+structs/enums/function prototype go in H
+c will have all the function implementations
+
+*/
