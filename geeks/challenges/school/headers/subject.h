@@ -87,7 +87,7 @@ void whichTeacher(char* subjectTitleGiven){
     int i;
     for (i = 0; i<subjectTracker; i+=1){
         subject temp = subjects[i];
-        if (strcmp(temp.subjectTitle, subjectTitleGiven)){
+        if (!strcmp(temp.subjectTitle, subjectTitleGiven)){
             printf("match found %s\n", temp.teacher);
         }
 
