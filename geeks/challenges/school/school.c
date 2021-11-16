@@ -35,11 +35,17 @@ int main(){
     printf("Cya\n");
     scoreType_t a = Exam;
     char * typeofexam = getScoreType(a);
-    printf("scoretype is %s\n", typeofexam);
-    subject newSubject = createSubject("maths", Exam, "Mr. Mister");
+    //printf("scoretype is %s\n", typeofexam);
+    subject newSubject = createSubject("maths", Exam, "Mr. Glasses");
+    subject newSubject1 = createSubject("english", Coursework, "Miss Book");
+    subject newSubject2 = createSubject("science", Practical, "Dr. Octopus");
     //printSubject(&newSubject);
-    printf("---\n%s\n%s\n%s", newSubject.subjectTitle, newSubject.teacher, getScoreType(newSubject.examType));
-
+    //printf("---\n%s\n%s\n%s", newSubject.subjectTitle, newSubject.teacher, getScoreType(newSubject.examType));
+    addSubject(&newSubject);
+    addSubject(&newSubject1);
+    addSubject(&newSubject2);
+    printSubjectList();
+    whichTeacher("english");
 
 
 
