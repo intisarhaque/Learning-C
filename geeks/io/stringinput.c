@@ -50,10 +50,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <malloc.h>
 #define __USE_GNU
 #define  _XOPEN_SOURCE
-#define _POSIX_C_SOURCE
+#define _POSIX_C_SOURCEß
 #define _GNU_SOURCE
 
 int main(){
@@ -69,6 +68,6 @@ int main(){
     printf("%zu characters were read\n", characters);
     printf("you typed %s \n", buffer);
 
-
+    return(0);
 
 }
