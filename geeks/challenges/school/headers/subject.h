@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h> 
+#include "student.h"
+#include "teacher.h"
 
 
 /*
@@ -11,15 +13,17 @@ datatypes start
 */
 typedef enum scoreType {Exam, Coursework, Practical} scoreType_t;
 
-struct subject
+struct subjecta
 {
     char subjectTitle[15];//char star or use memcopy
     scoreType_t examType;
-    char teacher[15];
+    teacher_t teacher;
+    //Student students[30];//list of pointers to structures
+    //char teacher[15];
 };
-typedef struct subject subject;
+typedef struct subjecta subject;
 
-subject subjects[10];    
+subject *subjects[10];    
 int subjectTracker = 0;//eventually static instead of global when in C
 /*
 datatypes end 
@@ -30,7 +34,7 @@ function prototype start
 */
 void test();
 char* getScoreType(scoreType_t typea);
-subject createSubject(char* subjectTitle, scoreType_t typea, char* teacher);
+subject createSubject(char subjectTitleGiven[15], scoreType_t typea, teacher_t teacherGiven);
 void printSubjectList();
 /*
 function prototype end
@@ -47,25 +51,24 @@ char* getScoreType(scoreType_t typea){
     }
 }
 
-subject createSubject(char subjectTitleGiven[15], scoreType_t typea, char teacherGiven[15]){
+subject createSubject(char subjectTitleGiven[15], scoreType_t typea, teacher_t teacherGiven){
     //printf("***\n%s\n%s\n%s", subjectTitle, teacher, getScoreType(typea));
     subject newSubject;// = {memcpy(subjectTitle,subjectTitle, 15), .examType=typea, .teacher=*teacher};//currently deferencing and shouldnt be
     memcpy(newSubject.subjectTitle, subjectTitleGiven, 15);
-    memcpy(newSubject.teacher, teacherGiven, 15);
+    newSubject.teacher  = teacherGiven;
     newSubject.examType = typea;
-    //printf("***\n%s\n%s\n%s", newSubject.subjectTitle, newSubject.teacher, getScoreType(newSubject.examType));
     return newSubject;
 }
 
 void printSubject(subject * subjectToPrint){
     //check pointer
     //subject c = *subjectToPrint;
-    printf("subject: %s\nteacher: %s\nexam type: %s\n", subjectToPrint->subjectTitle, subjectToPrint->teacher, getScoreType(subjectToPrint->examType));
+    printf("subject: %s\nteacher: %s\nexam type: %s\n", subjectToPrint->subjectTitle, subjectToPrint->teacher.teacherName, getScoreType(subjectToPrint->examType));
 }
 
 void addSubject(subject * subjectToAdd){
     //check pointer -> if error print to console
-    subjects[subjectTracker] = *subjectToAdd;
+    subjects[subjectTracker] = subjectToAdd; //was adding value instead of reference
     subjectTracker +=1;
     printf("subject tracker is %d\n", subjectTracker);
 }
@@ -78,21 +81,34 @@ void printSubjectList(){
     int i;
     for (i = 0; i<subjectTracker; i+=1){
         printf("Subject %d\n", i+1);
-        subject temp = subjects[i];
+        subject temp = *subjects[i];
         printSubject(&temp);
     }
+}
+
+void setTeacherToSubject(subject * subjectToAdd, teacher_t * TeacherToAdd){
+    printf("------\n");
+    printf("%s\n", TeacherToAdd->teacherName);
+    printf("%s\n", subjectToAdd->teacher.teacherName);
+    subjectToAdd->teacher=*TeacherToAdd;
+    printf("wegowe %s\n", subjectToAdd->teacher.teacherName);
+
 }
 
 void whichTeacher(char* subjectTitleGiven){
     int i;
     for (i = 0; i<subjectTracker; i+=1){
-        subject temp = subjects[i];
+        subject temp = *subjects[i];
         if (!strcmp(temp.subjectTitle, subjectTitleGiven)){
-            printf("match found %s\n", temp.teacher);
+            printf("match found %s\n", temp.teacher.teacherName);
         }
 
     }
 }
+
+// void addStudentToSubject(student * studentToAdd){
+    
+// }
 
 
 #endif

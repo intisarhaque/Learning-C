@@ -26,26 +26,30 @@
 //student.c to have the functions
 //student.h to have the declarations > import this
 #include "headers/subject.h"
+#include "headers/teacher.h"
+
 
 int main(){
-    add(4, 6);
-    multiply(5, 5);
-    subtract(20,10);
-    test();
+ 
     printf("Cya\n");
     scoreType_t a = Exam;
     char * typeofexam = getScoreType(a);
     //printf("scoretype is %s\n", typeofexam);
-    subject newSubject = createSubject("maths", Exam, "Mr. Glasses");
-    subject newSubject1 = createSubject("english", Coursework, "Miss Book");
-    subject newSubject2 = createSubject("science", Practical, "Dr. Octopus");
-    //printSubject(&newSubject);
-    //printf("---\n%s\n%s\n%s", newSubject.subjectTitle, newSubject.teacher, getScoreType(newSubject.examType));
+    teacher_t defaultTeacher = {.teacherName = "Unassigned", .salary=10000};
+    teacher_t m = {.teacherName = "Mr Math", .salary=50000};
+    teacher_t e = {.teacherName = "Miss book", .salary=235325};
+    teacher_t s = {.teacherName = "Dr Octopus", .salary=345424};
+    subject newSubject = createSubject("maths", Exam, defaultTeacher);
+    subject newSubject1 = createSubject("english", Coursework, e);
+    subject newSubject2 = createSubject("science", Practical, s);
     addSubject(&newSubject);
     addSubject(&newSubject1);
     addSubject(&newSubject2);
+    setTeacherToSubject(&newSubject, &m);
+    printf("oinoin %s\n", newSubject.teacher.teacherName);
     printSubjectList();
-    whichTeacher("english");
+    printf("23232 %s \n ", (*subjects[0]).teacher.teacherName);
+    whichTeacher("science");
 
 
 
