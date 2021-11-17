@@ -31,7 +31,6 @@
 
 int main(){
  
-    printf("Cya\n");
     scoreType_t a = Exam;
     char * typeofexam = getScoreType(a);
     //printf("scoretype is %s\n", typeofexam);
@@ -46,12 +45,16 @@ int main(){
     addSubject(&newSubject1);
     addSubject(&newSubject2);
     setTeacherToSubject(&newSubject, &m);
-    printf("oinoin %s\n", newSubject.teacher.teacherName);
     printSubjectList();
-    printf("23232 %s \n ", (*subjects[0]).teacher.teacherName);
     whichTeacher("science");
-
-
+    student st = createStudent("jonhamm", 9, subjects);
+    printStudent(&st, subjects);
+    subject newSubject3 = createSubject("PE", Practical, s);
+    addSubject(&newSubject3);
+    printSubjectList();
+    printStudent(&st, subjects);
+    setGrade(&newSubject1, &st, 50);
+    printStudent(&st, subjects);
 
 
     return 0;

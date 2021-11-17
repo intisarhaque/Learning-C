@@ -18,12 +18,13 @@ struct subjecta
     char subjectTitle[15];//char star or use memcopy
     scoreType_t examType;
     teacher_t teacher;
+    //int modulecode;
     //Student students[30];//list of pointers to structures
     //char teacher[15];
 };
 typedef struct subjecta subject;
 
-subject *subjects[10];    
+subject *subjects[10];//can be malloced because it is persistent
 int subjectTracker = 0;//eventually static instead of global when in C
 /*
 datatypes end 
@@ -36,6 +37,7 @@ void test();
 char* getScoreType(scoreType_t typea);
 subject createSubject(char subjectTitleGiven[15], scoreType_t typea, teacher_t teacherGiven);
 void printSubjectList();
+void whichTeacher(char* subjectTitleGiven);
 /*
 function prototype end
 */
@@ -52,8 +54,7 @@ char* getScoreType(scoreType_t typea){
 }
 
 subject createSubject(char subjectTitleGiven[15], scoreType_t typea, teacher_t teacherGiven){
-    //printf("***\n%s\n%s\n%s", subjectTitle, teacher, getScoreType(typea));
-    subject newSubject;// = {memcpy(subjectTitle,subjectTitle, 15), .examType=typea, .teacher=*teacher};//currently deferencing and shouldnt be
+    subject newSubject;
     memcpy(newSubject.subjectTitle, subjectTitleGiven, 15);
     newSubject.teacher  = teacherGiven;
     newSubject.examType = typea;
@@ -87,12 +88,7 @@ void printSubjectList(){
 }
 
 void setTeacherToSubject(subject * subjectToAdd, teacher_t * TeacherToAdd){
-    printf("------\n");
-    printf("%s\n", TeacherToAdd->teacherName);
-    printf("%s\n", subjectToAdd->teacher.teacherName);
     subjectToAdd->teacher=*TeacherToAdd;
-    printf("wegowe %s\n", subjectToAdd->teacher.teacherName);
-
 }
 
 void whichTeacher(char* subjectTitleGiven){
@@ -102,7 +98,6 @@ void whichTeacher(char* subjectTitleGiven){
         if (!strcmp(temp.subjectTitle, subjectTitleGiven)){
             printf("match found %s\n", temp.teacher.teacherName);
         }
-
     }
 }
 
