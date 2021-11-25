@@ -28,5 +28,30 @@
         - Cont - process will continue from being stopped
 */
 
+/*
+raising a signal
+    - can be generated using:
+        - raise() sends signal to current process
+            -int raise(int sig)
+                - if successful signal specified in sig is generated
+                - if not, raise() returns non-zero value
+            - can only send signal to program that contains it
+            - cannot send signal to other processes
+        - kill() sends signal to specific process
+
+
+
+*/
+
+
 #include <stdio.h>
 #include <stdlib.h>
+#include <signal.h>
+
+int main(){
+    printf("Testing SIGSTOP");
+    raise (SIGSTOP);
+    return 0;
+
+
+}
