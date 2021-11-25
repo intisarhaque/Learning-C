@@ -39,7 +39,35 @@ raising a signal
             - cannot send signal to other processes
         - kill() sends signal to specific process
 
+    - possible to catch almost all signals in program
+        - sometimes need to run own code when recieving signal (handle/catch)
+        - maybe need to do cleanup before terminating
+        - possible to ignore almost all signals apart from a few: SIGKILL, SIGABRT, SIGSTOP
+        - actions for signals are: default action, handle signal, ignore signal
+        - can catch handle usin signal.h
+            - 2 ways: signal() and sigaction()
+                - signal() used to tell OS which function it should call when signal is sent to a process
+                    - function used to deal with or handle a signal that is sent to it
+                    - if you have foo() that you want OS to call when interript signal send to process then
+                      need to pass function name foo to signal function as parameteter
+                        - foo() is called the handler
+                    - handlers are short/fast code, do just enough to deal with signal
+                    - recieves 2 arguments, integer signal number and pointer to signal handling function
+                    - returns
+                        - on success: return address of void function that takes an integer argument
+                        - on error: returns SIG_ERR
+                    - typedef void (*sighandler_t) (int); sighandler_t signal(int signum, sighandler_t handler)
+                        - signal() will call registered handler
+                        - handler can be either: SIG_IGN (ignore signal); SIG_DFL (setting signal back to default mechanism); user defined handler
+                - sigaction()
 
+                
+raising an alarm
+    - mechanism for a process to interrupt itself in the future
+    - alarm() sets a timer
+        - when timer expires, process receives a signal (SIGALARM)
+    - only one alarm clock per process
+    will return a value if another alarm has been set
 
 */
 
@@ -47,11 +75,49 @@ raising a signal
 #include <stdio.h>
 #include <stdlib.h>
 #include <signal.h>
+#include <unistd.h>
+
+void handler_dividebyszero(int signum);
+
 
 int main(){
-    printf("Testing SIGSTOP");
-    raise (SIGSTOP);
+    // printf("Testing SIGSTOP-----\n");
+    // raise (SIGSTOP);
+    // printf("I am after SIGSTOP---\n");
+    // return 0;
+
+    // alarm(5);//sends signal in future to terminal program so for loop terminated after 5 seconds
+    // for(int i=1; i<10; i+=1){
+    //     printf("%d\n", i);
+    //     sleep(1);
+    // }
+
+    int result = 0;
+    int v1, v2;
+    void (*sigHandlerReturn)(int); //function pointer
+    sigHandlerReturn = signal(SIGFPE, handler_dividebyszero);//returns value handler else SIG_ERR returned
+    // sigHandlerReturn = signal(SIGFPE, SIG_IGN);
+    
+    if (sigHandlerReturn == SIG_ERR){
+        perror("Signal error: ");
+        return 1;
+    }
+
+    v1 = 121;
+    v2 = 0;
+    result = v1/v2; //error bc dividing by 0;
+    printf("result is %d\n", result);
     return 0;
 
 
+}   
+
+void handler_dividebyszero(int signum){
+    printf("signal is %d\n", signum);
+    if (signum == SIGFPE){
+        printf("Recieved SIGFPE, divided by zero exception");
+        exit(0);
+    }else{
+        printf("Recieved %d Signal \n", signum);
+    }
 }
