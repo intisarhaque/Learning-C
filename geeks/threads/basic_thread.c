@@ -78,14 +78,7 @@ int main()
             - parent child
             - between unrelate/separate processes
     
-    PRESENTATION
-    OS kernel space
-    stack (down)
-    heap (up)
-    bss
-    bss
-    data
-    text
+
 
 
 
