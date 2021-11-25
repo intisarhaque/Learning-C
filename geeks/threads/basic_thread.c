@@ -69,6 +69,9 @@ int main()
                     - processes communicate with eachother using messages in a queue
                 - shared memory
                     - communicateween through shares piece of memory
+                    - share same address space. ß
+                    - create segment in memory other processes can access.
+                    - write into queue; read from queue; perform operations on queue.
                 - sockets
                     - communicate over a network between a client and server
                 - signals
