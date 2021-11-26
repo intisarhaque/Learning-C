@@ -59,7 +59,37 @@ raising a signal
                     - typedef void (*sighandler_t) (int); sighandler_t signal(int signum, sighandler_t handler)
                         - signal() will call registered handler
                         - handler can be either: SIG_IGN (ignore signal); SIG_DFL (setting signal back to default mechanism); user defined handler
-                - sigaction()
+                - sigaction() used to tell OS which function it should call when a signal is sent to a process
+                    - function handles the signal
+                    - essentially a function wrapper; a struct that contains a pointer to a function
+                    - if you have foo() that you want O to call, you wrap foo() up as sigaction
+                        - foo() is called the handler
+                    - int sigaction(int signum, const struct sigaction *newaction, struct sigaction *oldaction); 3 params
+                        - signal number: integer value of signal you want to handle
+                        - new action: address of sigaction you want to register
+                        - old action: if passing pointer to another sigaction, will be filled with details of current handler you are about to replace
+                                      else  if you don't care about existing signal handler can set to NULL
+                        - returns -1 if fails and will set errno variable
+                        - struct inside sigaction contains:
+                            - field 1: handler mentioned either in sa_handler or sa_sigaction
+                                - void (*sa_handler)(int); //which handler to call based off of which int
+                                    - handler fo sa_handler specifies action to be performed based on signum
+                                        - SIG_DFL indicating default action
+                                        - SIG_IGN to ignore signal or pointer 
+                                - void (sa_sigaction)(int, siginfo_t *, void*)
+                                    - handler for sa_sigaction 
+                                        - specifies signal number as first argument
+                                        - specifies pointer to siginfo_t structure as the second argument  
+                                            - this contains signal information such as signal number to be delivered, signal value,
+                                              process ID, real user ID of sending process
+                                        - specifies pointer to user content as third argument
+                            - field 2: set of signals to be blocked
+                                - int sa_mask; variable specifies mask of signals that should be blocked during execution of signal handler
+                            - field 3: field specifies set of flags which mody behaviour of the signal
+                                - int sa_flag
+                            - field 4: restore handler
+                                - void (*sa_restorer) (void); returns 0 on success, and -1 for failure
+
 
                 
 raising an alarm
