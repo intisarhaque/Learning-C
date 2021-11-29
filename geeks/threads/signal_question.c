@@ -4,9 +4,8 @@
     program runs forever until user presses ctrl C or takes >5seconds to answer question
     when program ends display final score
 
-    need to handle user pressing ctrl C using signal or sighandle
+    need to handle user pressing ctrl C using signal or sighandle which sents interrpt signal-> display final score-> exit
     raise signal if 5 seconds without answer (alarm); function to catch alarm
-
 
 */
 
