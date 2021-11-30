@@ -30,13 +30,14 @@
             - can communicate in many ways:
                 - pipes (anonymous; same process)
                     - unidirectional comms(half duplex)
+                    - kernel provides pipe with 2 file descriptors, one for read; one for write
                 - named pipes (different processes, FIFO)
                     - bidirectional (full duplex)
                 - message queues
                     - processes communicate with eachother using messages in a queue
                 - shared memory
                     - communicateween through shares piece of memory
-                    - share same address space. ß
+                    - share same address space. 
                     - create segment in memory other processes can access.
                     - write into queue; read from queue; perform operations on queue.
                 - sockets
@@ -157,7 +158,6 @@ int main(int argc, char * argv[]){
     /* will wait till thread is finished
     will block main from completing till thread finishes */
     pthread_join(thread, NULL);
-
 
     /*equivalent of wait() for processes. 
     A call to pthread_join blocks the calling thread until the thread with 

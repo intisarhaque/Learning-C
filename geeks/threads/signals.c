@@ -14,8 +14,8 @@
         - SIGABRT | 6 | Core | Abort signal from abort(3)
         - SIGFPE | 8 | Core | Floating point exception
         - SIGKILL | 9 | Term | Kill signal
-        - SIGSEGB | 11 | Core | Invalid memory reference
-        - SIGKILL | 13 | Term | Broken pipe: write to pipe wiht no readers
+        - SIGSEGB | 11 | Core | Invalid memory reference, segmentation faultß
+        - SIGKILL | 13 | Term | Broken pipe: write to pipe with no readers
         - SIGTSTP (ctrl-z)
         - SIGCONT (fg/bg)
         - SIGTERM terminate program
@@ -44,6 +44,7 @@ raising a signal
         - maybe need to do cleanup before terminating
         - possible to ignore almost all signals apart from a few: SIGKILL, SIGABRT, SIGSTOP
         - actions for signals are: default action, handle signal, ignore signal
+        - after the signal handler is called once it ownt be called again so needs to be reinitialised
         - can catch handle usin signal.h
             - 2 ways: signal() and sigaction()
                 - signal() used to tell OS which function it should call when signal is sent to a process

@@ -26,6 +26,7 @@
             - <0 means child creation unsuccessful
             - 0 to newly created child
             - >0 process ID of child process to parent
+    - kill function to send signal to child
 
 */
 
