@@ -16,7 +16,7 @@
         - SIGKILL | 9 | Term | Kill signal
         - SIGSEGB | 11 | Core | Invalid memory reference, segmentation faultß
         - SIGKILL | 13 | Term | Broken pipe: write to pipe with no readers
-        - SIGTSTP (ctrl-z)
+        - SIGTSTP |    | Stop | (ctrl-z)
         - SIGCONT (fg/bg)
         - SIGTERM terminate program
         - other signal events: illegal instructions, segmentation violations, termination orders, when using fgets()

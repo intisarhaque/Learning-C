@@ -13,7 +13,7 @@ int counter = 0;
 
 //QUESTION: void * do_process()  vs void do_process()
 void * thread_function(){
-    printf("Thread number %ld\n", pthread_self());
+    printf("Thread number %ld, counter is %d\n", pthread_self(), counter);
     pthread_mutex_lock(&lock);
     counter++;
     pthread_mutex_unlock(&lock);
