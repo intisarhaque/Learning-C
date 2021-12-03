@@ -83,11 +83,8 @@ int main(){
     printf("Amount of stack needed per thread = %li\n", stacksize);
     pthread_attr_setstacksize(&attr, stacksize);//set attr to 9MB
     //QUESTION: to verify if this works I want to print attr's attributes so how do i do that
-    //QUESTION: steam-deck supports 8 thread multithreading. what does that really mean?
     printf("Creating thread with stacksize %li\n", stacksize);
-    
-
-
+    //attr.__opaque
     myID = pthread_create(&myThread, &attr, dowork, (void *) t);
     if (myID){
         printf("Error; return code from thread creation is %d\n",myID );
