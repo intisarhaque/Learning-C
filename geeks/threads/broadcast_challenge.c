@@ -4,7 +4,7 @@
 #include <unistd.h> 
 #include <pthread.h> 
 
-#define NTHREADS 10
+#define NTHREADS 20
 
 /*GLOBALS*/
 int counter = 0;
@@ -23,15 +23,15 @@ void * thread_function(void *ptr){
     else if ((message%2)!=0){
         //need if statement because some odd threads get to this bit after the broadcast
         if (counter<(NTHREADS/2)){
-            printf("Thread %d waiting\n", message);
+            printf("Thread %d waiting...\n", message);
             pthread_cond_wait(&condition_cond, &lock1);
         }
         counter++;
     }
     printf("Thread number %ld\t Message is %d\t Modified counter to %d\n", pthread_self(), message, counter);
     printf("Thread number %ld\t Message is %d\t Read counter as %d\n", pthread_self(), message, counter);
-    if(counter==5){
-        printf("Now broadcasting\n");
+    if(counter==(NTHREADS/2)){
+        printf("Now broadcasting...\n");
         pthread_cond_broadcast(&condition_cond);
     }
     pthread_mutex_unlock(&lock1);
