@@ -9,14 +9,15 @@
 #include <dispatch/dispatch.h>
 #define READERTHREADS 4
 #define WRITERTHREADS 1
-
+#define SEM_NAME_1 "/sem_1"
 
 /*GLOBALS*/
 int db;
 extern int errno;
-dispatch_semaphore_t semaphoreRead;
-dispatch_semaphore_t semaphoreWrite;
-int writerAccess;
+dispatch_semaphore_t semaphoreRead; //allows multiple access 
+dispatch_semaphore_t semaphoreWrite; //allows 1 access
+int writerAccess; //
+int readerCount;
 pthread_mutex_t lock1;
 /*GLOBALS*/
 
@@ -26,11 +27,12 @@ void * reader_function(void *ptr){
     {
         while (writerAccess==1){
             sleep(1);
-            //dispatch_semaphore_wait(semaphoreWrite, DISPATCH_TIME_FOREVER);
         }
+        //condition (mutex, condiiton)
         int sleepTime = (rand() % 4) + 1;
         printf("ThreadNum %d  sleeping for %d...\n", threadNum, sleepTime);
         sleep(sleepTime);
+        //reader wakes up here and gets in regardless of writer function
         dispatch_semaphore_wait(semaphoreRead, DISPATCH_TIME_FOREVER);
 
         printf("ThreadNum %d reading db: %d\n", threadNum, db);
@@ -47,8 +49,9 @@ void * writer_function(void *ptr){
     while(1)
     {
         printf("Read phase *****\n");
-        dispatch_semaphore_wait(semaphoreWrite, DISPATCH_TIME_FOREVER);
+        dispatch_semaphore_wait(semaphoreWrite, DISPATCH_TIME_FOREVER); //sem_wait
         writerAccess = 1;//signal to threads to deload and wait
+        //check if semaphore read is  a
         int sleepTime = (rand() % 4) + 1;
         int randNumber = (rand() % 10) + 1;
         printf("writer function sleeping for %d\n", sleepTime);
@@ -58,7 +61,8 @@ void * writer_function(void *ptr){
         printf("Writer writing to db %d\n", db);
         writerAccess = 0;
         sleep(1);
-        dispatch_semaphore_signal(semaphoreWrite);
+        dispatch_semaphore_signal(semaphoreWrite);//sem_post
+        //broadcast(condition)
     }
     
     return (NULL);
