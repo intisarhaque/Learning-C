@@ -4,7 +4,7 @@
 #include <unistd.h> 
 #include <pthread.h> 
 
-#define NTHREADS 10
+#define READERTHREADS 10
 
 /*GLOBALS*/
 pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
@@ -21,13 +21,13 @@ void * thread_function(){
 
 
 int main(){
-    pthread_t thread_id[NTHREADS];
+    pthread_t thread_id[READERTHREADS];
 
     int i, j;
-    for (int i=0; i<NTHREADS; i++){
+    for (int i=0; i<READERTHREADS; i++){
         pthread_create(&thread_id[i], NULL, &thread_function, NULL);
     }
-    for (int j=0; j<NTHREADS; j++){
+    for (int j=0; j<READERTHREADS; j++){
         pthread_join(thread_id[j], NULL);
     }
 

@@ -4,7 +4,7 @@
 #include <unistd.h> 
 #include <pthread.h> 
 
-#define NTHREADS 20
+#define READERTHREADS 20
 
 /*GLOBALS*/
 int counter = 0;
@@ -22,7 +22,7 @@ void * thread_function(void *ptr){
     }
     else if ((message%2)!=0){
         //need if statement because some odd threads get to this bit after the broadcast
-        if (counter<(NTHREADS/2)){
+        if (counter<(READERTHREADS/2)){
             printf("Thread %d waiting...\n", message);
             pthread_cond_wait(&condition_cond, &lock1);
         }
@@ -30,7 +30,7 @@ void * thread_function(void *ptr){
     }
     printf("Thread number %ld\t Message is %d\t Modified counter to %d\n", pthread_self(), message, counter);
     printf("Thread number %ld\t Message is %d\t Read counter as %d\n", pthread_self(), message, counter);
-    if(counter==(NTHREADS/2)){
+    if(counter==(READERTHREADS/2)){
         printf("Now broadcasting...\n");
         pthread_cond_broadcast(&condition_cond);
     }
@@ -41,11 +41,11 @@ void * thread_function(void *ptr){
 
 
 int main(){
-    pthread_t thread_id[NTHREADS];
+    pthread_t thread_id[READERTHREADS];
     int i, j;
 
     //create threads
-    for (int i=0; i<NTHREADS; i++){
+    for (int i=0; i<READERTHREADS; i++){
         int *arg = malloc(sizeof(*arg));
         if ( arg == NULL ) {
             fprintf(stderr, "Couldn't allocate memory for thread arg.\n");
@@ -58,7 +58,7 @@ int main(){
     sleep(1);
 
     //join theads
-    for (int j=0; j<NTHREADS; j++){
+    for (int j=0; j<READERTHREADS; j++){
         pthread_join(thread_id[j], NULL);
     }
 
