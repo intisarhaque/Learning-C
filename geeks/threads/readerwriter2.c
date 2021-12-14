@@ -6,99 +6,102 @@
 #include <errno.h>
 #include <semaphore.h>
 #include <string.h>
-#include <dispatch/dispatch.h>
-#define READERTHREADS 4
+#define READERTHREADS 30
 #define WRITERTHREADS 1
-#define SEM_NAME_1 "/sem_1"
+//#define SEM_NAME_1 "/sem_1"
 #define SEM_NAME_2 "/sem_2"
 
 /*GLOBALS*/
 int db;
-extern int errno;
-// dispatch_semaphore_t semaphoreRead; //allows multiple access 
-// dispatch_semaphore_t semaphoreWrite; //allows 1 access
-int writerAccess; //
+int writerAccess; 
 int readerCount;
-pthread_mutex_t lock1;
-sem_t *sem1;
+//sem_t *sem1;
 sem_t *sem2;
-/*GLOBALS*/
+pthread_mutex_t mutex;
+pthread_mutex_t mutex2;
+pthread_cond_t cond;
 
 void * reader_function(void *ptr){
-    int threadNum = *((int*)ptr);
     while(1)
     {
+        int threadNum = *((int*)ptr);
+        int sleepTime = (rand() % 4) + 1;
+        //printf("ThreadNum %d  sleeping for %d...\n", threadNum, sleepTime);
+        //sleep(1);
         while (writerAccess==1){
             sleep(1);
         }
-        int sleepTime = (rand() % 4) + 1;
-        printf("ThreadNum %d  sleeping for %d...\n", threadNum, sleepTime);
-        sleep(sleepTime);
-        //reader wakes up here and gets in regardless of writer function
-        //dispatch_semaphore_wait(semaphoreRead, DISPATCH_TIME_FOREVER);
-        sem_wait(sem1);
-        sem_wait(sem2);
+        pthread_mutex_lock(&mutex2);
+
         readerCount +=1;
-        sem_post(sem2);
+
+        pthread_mutex_unlock(&mutex2);
+
+
         printf("ThreadNum %d reading db: %d\n", threadNum, db);
 
-        //dispatch_semaphore_signal(semaphoreRead);
-        sem_wait(sem2);
-        printf("Reader count is %d \n", readerCount);
-        readerCount -=1;
-        sem_post(sem2);
-        sem_post(sem1);
-        // sem_getvalue(&sem1, &readerCount);
-        
-        sleep(1);
+        pthread_mutex_lock(&mutex2);
 
+        readerCount -=1;
+
+        pthread_mutex_unlock(&mutex2);
+        
+        if (readerCount==0){
+            printf("reader signalling\n");
+            pthread_cond_signal(&cond);
+        }
+        
     }
-    return (NULL);
+
+    return(NULL);
 }
 
 void * writer_function(void *ptr){
-    int threadNum = *((int*)ptr);
     while(1)
     {
-        printf("Read phase *****\n");
-        //dispatch_semaphore_wait(semaphoreWrite, DISPATCH_TIME_FOREVER); //sem_wait
-        //sem_wait(sem2);
-        writerAccess = 1;//signal to threads to deload and wait
-        //check if semaphore read is  a
+        int threadNum = *((int*)ptr);
+        int randNumber = (rand() % 10) + 1; 
         int sleepTime = (rand() % 4) + 1;
-        int randNumber = (rand() % 10) + 1;
         printf("writer function sleeping for %d\n", sleepTime);
         sleep(sleepTime);
-        sem_wait(sem2);
-        while(readerCount!=0){
-            sem_post(sem2);
-            sleep(0.1);
-        }
-        sem_post(sem2);
+
+        //printf("Writing phase &&&&&\n");
+        writerAccess=1;//signals readerdeload
+        pthread_mutex_lock(&mutex);
         printf("Writing phase &&&&&\n");
+
+        pthread_mutex_lock(&mutex2);
+        while (readerCount!=0){
+            printf("Writer waiting...");
+            pthread_cond_wait(&cond, &mutex);
+        }
+        pthread_mutex_unlock(&mutex2);
+
         db +=randNumber;
         printf("Writer writing to db %d\n", db);
-        writerAccess = 0;
-        sleep(1);
-        //dispatch_semaphore_signal(semaphoreWrite);//sem_post
-        //sem_post(sem2);
-        //broadcast(condition)
+        writerAccess=0;//signals reader starting
+        pthread_mutex_unlock(&mutex);
+        printf("Read phase *****\n");
     }
-    
-    return (NULL);
+    return(NULL);
 }
+
+
+
 
 int main(){
     pthread_t thread_id[READERTHREADS];
     pthread_t thread_id2[WRITERTHREADS];
+    pthread_mutex_init(&mutex, NULL);
+    pthread_mutex_init(&mutex2, NULL);
+    pthread_cond_init(&cond, NULL);
 
     int errnum;
     db = 0;
     writerAccess = 0;
-    sem1 = sem_open(SEM_NAME_1, O_CREAT | O_EXCL, S_IRUSR | S_IWUSR, 4);
+    //sem1 = sem_open(SEM_NAME_1, O_CREAT | O_EXCL, S_IRUSR | S_IWUSR, 4);
     sem2 = sem_open(SEM_NAME_2, O_CREAT | O_EXCL, S_IRUSR | S_IWUSR, 0);
-    // semaphoreRead = dispatch_semaphore_create(4);
-    // semaphoreWrite = dispatch_semaphore_create(1);
+
     time_t t;
     srand((unsigned) time(&t));
 
@@ -137,8 +140,6 @@ int main(){
 
 
 
-    // dispatch_release(semaphoreRead);
-    // dispatch_release(semaphoreWrite);
     return 0;
 
 }
