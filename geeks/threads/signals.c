@@ -8,7 +8,7 @@
     - process can recieve signal asynchronously (at any time)
     - fix set of signal - just a short message that contains an integer
         - SIGHUP | 1 | Term | hangup detected on controlling terminal or death of controlling process
-        - SIGINT | 2 | Term | interrupt from keyboard (ctrl-c)
+        - SIGINT | 2 | Term | interrupt from keyboard (ctrl-c) 
         - SIGQUIT | 3 | Core | quit instruction
         - SIGILL | 4 | Core | Illegal instruction
         - SIGABRT | 6 | Core | Abort signal from abort(3)
@@ -80,6 +80,7 @@ raising a signal
                                 - void (sa_sigaction)(int, siginfo_t *, void*)
                                     - handler for sa_sigaction 
                                         - specifies signal number as first argument
+                                        - REASON TO USE SIGACTION:
                                         - specifies pointer to siginfo_t structure as the second argument  
                                             - this contains signal information such as signal number to be delivered, signal value,
                                               process ID, real user ID of sending process

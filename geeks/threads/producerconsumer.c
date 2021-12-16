@@ -188,7 +188,6 @@ int main(){
     time_t t;
     srand((unsigned) time(&t));
 
-
     //create writer threads 
     for (int i=0; i<PRODUCERTHREADS; i++){
         int *arg = malloc(sizeof(*arg));

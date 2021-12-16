@@ -1,6 +1,8 @@
 #include <stdio.h>
 
-
+// char *const ptr : This is a constant pointer to non-constant character.
+// const char *ptr : This is a non-const pointer to a constant character
+// const char * const ptr : This is a constant pointer to constant character. 
 
 struct byte {
 // char a:5;
