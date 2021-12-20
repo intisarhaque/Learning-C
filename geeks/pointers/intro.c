@@ -80,7 +80,24 @@ when interrupt arrives there is assembler code that calls function
 callback function on kernel variables and needs to be really fast and do a few operations
 in function you define what to do - if interrupt enable device to read and set a flag
 
-book on findaspace individual, london brentwood, first floor group proudct, 10th, book, 1st floor look for the people
 
+Pointer tools
+2 categories
+    - operators
+        - unary * (poiinter)
+        - unary & (address-of)
+        - sizeof (keyword but also operator)
+    - symbolic constant
+        - null (pointer not assigned to address)
+        - size_t (byte count for use when allocating memory)
+
+data type | name | value | & contains address of sotrage location | sizeof how much variable occupies in storage
+      int   size =  64
+
+array a[] and pointer *p
+    - to assign P to base of array: p = a
+    - assign p to array element n: p = &a[n]
+    - access element n's address: p+n
+    - access element n's value: *(p+n)
 
 */
