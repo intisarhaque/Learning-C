@@ -135,76 +135,75 @@ void swapPointers(intObj_t **left, intObj_t **right){
     //free(temp);
 }
 
-void positionElement (intObj_t **head, intObj_t *nodeToInsert){
+void positionElement (intObj_t **newHead, intObj_t *nodeToInsert){
     printf("test ");
     printStruct(nodeToInsert);
-    printf(" ");
-    printList(*head);
-    printf(" ");
-    intObj_t* finder=(*head)->next;
-    intObj_t* temp;
-    if (nodeToInsert->id < (*head)->id){
-        printf("changinghead\n");
-        temp = nodeToInsert->next;
-        nodeToInsert->next=*head;
-        (*head)->next = temp;
-        *head = nodeToInsert;
-        printList(*head);
+    printf("test ");
+
+    if (*newHead == NULL){
+        printf("gwinegwe");
+        *newHead=nodeToInsert;
+        (*newHead)->next=NULL;
+        printf("gwinegwe2\n");
         return;
     }
-    // else{
-    //     printf("changingbody\n");
-    //     while(finder->next!=NULL){
-    //         if(nodeToInsert->id<finder->next->id){
-    //             nodeToInsert->next=finder->next;
-    //             finder->next=nodeToInsert;
-    //         }else{
-    //             finder = finder->next;
-    //         }
-    //     }
-    //     //check tail
-    // }
+    if (nodeToInsert->id <= (*newHead)->id){
+        printf("HMM?");
+        nodeToInsert->next=*newHead;
+        *newHead=nodeToInsert;
+        printf("HMM2\n");
+        return;
+    }
+    intObj_t* iterator = *newHead;
+    intObj_t* temp;
+    while(iterator->next!=NULL){
+        if (nodeToInsert->id<iterator->next->id){
+            printf("qqqq");
+            printStruct(iterator->next);
+            printStruct(iterator);
+            printf("qqqq1");
+            temp = iterator->next;
+            iterator->next=nodeToInsert;
+            nodeToInsert->next=temp;
+            printf("qqqq2\n");
+            return;
+        }
+        else{
+            iterator=iterator->next;
+        }
+    }
+    printf("tail is ");
+    printStruct(iterator);
+    iterator->next=nodeToInsert;
+    printf("newtial\n");
+    return;
 }
 
 void insertionSortList(intObj_t **head){
-    //insertion sort
-
-    if (*head==NULL){
-        printf("list not instantialized to sort");
-        return;
-    }
-    intObj_t* iterator;// = (intObj_t** )malloc(sizeof(intObj_t*));//just an address that points to an address of a node
+    intObj_t* newHead=NULL;
     intObj_t* temp;
-    iterator = (*head);
-    printf("sorting...\n");
-    // while(iterator!=NULL){
-    //     // do tail check
-    //     temp = iterator->next;
-    //     printf("temp is ");
-    //     printStruct(temp);
-    //     printf("\n");
-    //     positionElement(head, iterator);
-    //     iterator=temp;
-    // }
-    while(iterator->next!=NULL){
-        if (iterator->next->next==NULL){
-            printf("gwgweg");
-            printStruct(iterator->next);
-            positionElement(head, iterator->next);
-            iterator->next=NULL;
-        }else{
-            temp = iterator->next->next;
-            positionElement(head, iterator->next);
+    intObj_t* iterator = *head;
+    while (iterator!=NULL){
+        if (iterator->next==NULL){
+            //tail
+            positionElement(&newHead, iterator);
+            break;
+        }
+        else{
+            temp = iterator->next;
+            positionElement(&newHead, iterator);
             iterator = temp;
+            //printList(newHead);
+            //  temp = iterator->next;
+            // positionElement(&newHead, iterator);
+            // iterator = temp;
         }
     }
-    // insertElement(head, iterator);
-    //printf("sorting done!\n");
-    //*iterator = *head;
+
+    *head = newHead;
+
+
 }
-
-//search a sorted list
-
 
 
 int main(){
@@ -222,23 +221,31 @@ int main(){
     // }
     addToHead(1, &head);
     addToHead(2, &head);
-    addToHead(3, &head);
+    addToHead(1, &head);
     addToHead(4, &head);
     addToHead(5, &head);
     addToHead(6, &head);
-    addToHead(7, &head);
-    // addToTail(2, head);
-    // addToTail(2, head);
-    // addToTail(2, head);
-    // addToTail(2, head);
-    //printList(head);
+    addToHead(1, &head);
+    addToTail(2, head);
+    addToTail(4, head);
+    addToTail(1, head);
+    addToTail(2, head);
+    printList(head);
     // removeNode(2, &head);
     // printf("\nAfter removing:\n");
     // printList(head);
-    // addToTail(5, head);
+    addToTail(1, head);
     insertionSortList(&head);
-    printf("After sorting:\n");
-    printList(head);
+    printf("\nAfter sorting:\n");
+    //printList(head);
+    printStruct(head);
+    printStruct(head->next);
+    printStruct(head->next->next);
+    printStruct(head->next->next->next);
+    printStruct(head->next->next->next->next);
+    // addToTail(2, head);
+    //printList(head);
+
 
 
 
