@@ -146,7 +146,6 @@ void assignGift(int fd_count){
         UserArr[listBeginning].whoToGift = &UserArr[nextIndex];
         printf("%s is gifting to %s\n", UserArr[listBeginning].name, (*(UserArr[listBeginning].whoToGift)).name);
     }
-
 }
 
 
@@ -160,6 +159,7 @@ int main(void)
     socklen_t addrlen;
 
     char buf[256];    // Buffer for client data
+    char writebuf[256];
     //uint8_t buf[15];
 
     time_t t;
@@ -225,7 +225,8 @@ int main(void)
                     // If not the listener, we're just a regular client
                     int nbytes = recv(pfds[i].fd, buf, sizeof buf, 0);
                     //check first char of buf for a number. if 1 add name
-                    buf[sizeof(buf)-1]='\0';
+                    //buf[sizeof(buf)-1]='\0';
+                    buf[strcspn(buf, "\n")] = 0;//remove newline 
                     int sender_fd = pfds[i].fd;
                     if (nbytes <= 0) {
                         // Got error or connection closed by client
@@ -256,18 +257,23 @@ int main(void)
                             2triggered = 0;
                         */        
                         if (buf[0]=='1'){
-                            if (send(pfds[i].fd, "you entered 1", nbytes, 0) == -1) {
-                                    perror("send");
 
-                            }
                             User_t user = {0};
                             user.name = (char *) malloc(100);
-                            //user->name=buf;
+                            memmove(buf, buf+1, strlen(buf));//remove leading num                  
                             strcpy(user.name, buf);
                             user.pfdi=i;
                             user.whoToGift=NULL;
                             UserArr[i] = user;
+                            int check;
+                            check = snprintf(writebuf, sizeof(writebuf), "%s has been stored in secret santa!", buf);
+                            printf("check is %d\n", check);
                             buf[0]='\0';
+
+                            if (send(pfds[i].fd, writebuf, nbytes, 0) == -1) {
+                                perror("send");
+
+                            }
 
                         }
                         if (buf[0]=='2'){
@@ -276,9 +282,8 @@ int main(void)
                             }
                         }
                         if (buf[0]=='3'){
-                            printf("3 count is %d\n", fd_count);
                             for (int j=1; j<fd_count; j+=1){
-                                printf("name is: %s", UserArr[j].name );
+                                printf("name is: %s\n", UserArr[j].name );
                             }
                         }
                         if (buf[0]=='4'){
@@ -287,7 +292,16 @@ int main(void)
                         }
                         if (buf[0]=='5'){
                             assignGift(fd_count);
-                            //send
+                            int listSize = fd_count-1;
+                            int listBeginning;
+                            printf("5 in\n");
+                            for (listBeginning=1; listBeginning<=listSize; listBeginning+=1){
+                                //printf("%s is gifting to %s\n", UserArr[listBeginning].name, (*(UserArr[listBeginning].whoToGift)).name);
+                                snprintf(writebuf, sizeof(writebuf), "%s, you are gifting to %s", UserArr[listBeginning].name, (*(UserArr[listBeginning].whoToGift)).name);
+                                int pfdids = UserArr[listBeginning].pfdi;
+                                send(pfds[pfdids].fd, writebuf, nbytes, 0);
+                            }
+
                         }
                         memset(buf,0,strlen(buf));
 

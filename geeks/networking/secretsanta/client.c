@@ -23,7 +23,7 @@ void * clientWrite(void *ptr){
         return (NULL);
     }
     int sockfd = *((int*)ptr);
-    printf("SockFD to write is %d\n", sockfd );
+    //printf("SockFD to write is %d\n", sockfd );
     
     char writebuf[MAXDATASIZE];
     int test;
